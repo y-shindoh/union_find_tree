@@ -3,7 +3,8 @@
  * @file	union_find_tree.hpp
  * @brief	union find treeのテンプレート
  * @author	Yasutaka SHINDOH / 新堂 安孝
- * @note	http://algoogle.hadrori.jp/algorithm/union-find.html を参考に実装した。
+ * @note	http://www.slideshare.net/iwiwi/ss-3578491 と
+			http://algoogle.hadrori.jp/algorithm/union-find.html を参考に実装した。
  * @note	経路圧縮の実装を含めていない。
  */
 
@@ -30,16 +31,20 @@ namespace ys
 		 * 代表のインデックスの取得
 		 */
 		size_t
-		find(size_t i) const
+		find(size_t i)
 			{
 				assert(i < N);
 
+				size_t h(i);
 				size_t j;
 
 				while ('-') {
-					j = (size_t)parent_[i];
-					if (i == j) return i;
-					i = j;
+					j = (size_t)parent_[h];
+					if (h == j) {
+						parent_[i] = (TYPE)h;
+						return h;
+					}
+					h = j;
 				}
 			}
 
@@ -87,7 +92,7 @@ namespace ys
 		 */
 		bool
 		same(size_t i,
-			 size_t j) const
+			 size_t j)
 			{
 				return find(i) == find(j);
 			}
