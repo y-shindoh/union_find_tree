@@ -34,17 +34,14 @@ namespace ys
 			{
 				assert(i < N);
 
-				size_t h(i);
-				size_t j;
+				size_t j = (size_t)parent_[i];
 
-				while ('-') {
-					j = (size_t)parent_[h];
-					if (h == j) {
-						parent_[i] = (TYPE)h;
-						return h;
-					}
-					h = j;
+				if (i != j) {
+					j = find(j);
+					parent_[i] = (TYPE)j;
 				}
+
+				return j;
 			}
 
 	public:
