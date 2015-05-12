@@ -16,7 +16,7 @@ namespace ys
 	/**
 	 * @class	union find treeのテンプレート
 	 * @note	テンプレートの型 @a TYPE には符号なし整数を指定すること。
-	 * @note	テンプレートの整数 @a N には集合の要素数を指定すること。
+	 * @note	テンプレートの整数 @a N には全要素数 (最大インデックス+1) を指定すること。
 	 */
 	template<typename TYPE, size_t N>
 	class UnionFindTree
