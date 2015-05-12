@@ -5,7 +5,6 @@
  * @author	Yasutaka SHINDOH / 新堂 安孝
  * @note	http://www.slideshare.net/iwiwi/ss-3578491 と
 			http://algoogle.hadrori.jp/algorithm/union-find.html を参考に実装した。
- * @note	経路圧縮の実装を含めていない。
  */
 
 #include <cstddef>
