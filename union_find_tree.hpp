@@ -7,6 +7,9 @@
 			http://algoogle.hadrori.jp/algorithm/union-find.html を参考に実装した。
  */
 
+#ifndef	__UNION_FIND_TREE_HPP__
+#define	__UNION_FIND_TREE_HPP__ "union_find_tree.hpp"
+
 #include <cstddef>
 #include <cassert>
 #include <vector>
@@ -94,3 +97,5 @@ namespace ys
 			}
 	};
 };
+
+#endif	// __UNION_FIND_TREE_HPP__
