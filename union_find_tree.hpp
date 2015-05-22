@@ -30,7 +30,9 @@ namespace ys
 		std::vector<TYPE> rank_;	///< ランク
 
 		/**
-		 * 代表のインデックスの取得
+		 * グループ代表のインデックスの取得
+		 * @param[in]	i	インデックス
+		 * @return	グループ代表のインデックス
 		 */
 		size_t
 		find(size_t i)
@@ -63,25 +65,37 @@ namespace ys
 			}
 
 		/**
+		 * デストラクタ
+		 */
+		~UnionFindTree()
+			{
+				;
+			}
+
+		/**
 		 * 2つのグループを統合
 		 * @param[in]	i	インデックスその1
 		 * @param[in]	j	インデックスその2
 		 */
 		void
 		unite(size_t i,
-			  size_t j) {
-			i = find(i);
-			j = find(j);
-			if (i == j) return;
+			  size_t j)
+			{
+				assert(i < N);
+				assert(j < N);
 
-			if (rank_[i] < rank_[j]) {
-				parent_[i] = (TYPE)j;
+				i = find(i);
+				j = find(j);
+				if (i == j) return;
+
+				if (rank_[i] < rank_[j]) {
+					parent_[i] = (TYPE)j;
+				}
+				else {
+					parent_[j] = (TYPE)i;
+					if (rank_[i] == rank_[j]) rank_[i]++;
+				}
 			}
-			else {
-				parent_[j] = (TYPE)i;
-				if (rank_[i] == rank_[j]) rank_[i]++;
-			}
-		}
 
 		/**
 		 * 2つのインデックスが同一グループに所属しているか確認
@@ -93,6 +107,9 @@ namespace ys
 		same(size_t i,
 			 size_t j)
 			{
+				assert(i < N);
+				assert(j < N);
+
 				return find(i) == find(j);
 			}
 	};
