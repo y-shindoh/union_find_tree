@@ -56,11 +56,11 @@ namespace ys
 		 */
 		UnionFindTree()
 			{
-				parent_.resize(N);
-				rank_.resize(N, (TYPE)1);
+				parent_.reserve(N);
+				rank_.resize(N, (TYPE)0);
 
 				for (size_t i(0); i < N; ++i) {
-					parent_[i] = (TYPE)i;
+					parent_.push_back((TYPE)i);
 				}
 			}
 
