@@ -19,9 +19,8 @@ namespace ys
 	/**
 	 * @class	union find treeのテンプレート
 	 * @note	テンプレートの型 @a TYPE には符号なし整数を指定すること。
-	 * @note	テンプレートの整数 @a N には全要素数 (最大インデックス+1) を指定すること。
 	 */
-	template<typename TYPE, size_t N>
+	template<typename TYPE>
 	class UnionFindTree
 	{
 	private:
@@ -37,7 +36,7 @@ namespace ys
 		size_t
 		find(size_t i)
 			{
-				assert(i < N);
+				assert(i < parent_.size());
 
 				size_t j = (size_t)parent_[i];
 
@@ -54,12 +53,12 @@ namespace ys
 		/**
 		 * コンストラクタ
 		 */
-		UnionFindTree()
+		UnionFindTree(size_t n)
 			{
-				parent_.reserve(N);
-				rank_.resize(N, (TYPE)0);
+				parent_.reserve(n);
+				rank_.resize(n, (TYPE)0);
 
-				for (size_t i(0); i < N; ++i) {
+				for (size_t i(0); i < n; ++i) {
 					parent_.push_back((TYPE)i);
 				}
 			}
@@ -81,8 +80,8 @@ namespace ys
 		unite(size_t i,
 			  size_t j)
 			{
-				assert(i < N);
-				assert(j < N);
+				assert(i < parent_.size());
+				assert(j < parent_.size());
 
 				i = find(i);
 				j = find(j);
@@ -107,8 +106,8 @@ namespace ys
 		same(size_t i,
 			 size_t j)
 			{
-				assert(i < N);
-				assert(j < N);
+				assert(i < parent_.size());
+				assert(j < parent_.size());
 
 				return find(i) == find(j);
 			}
