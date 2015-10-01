@@ -20,14 +20,17 @@ main()
 	}
 
 	unsigned check[][2] = {{6, 9}, {3, 5}, {2, 5}};
+	unsigned x, y;
 	bool flag;
 	for (size_t i(0); i < sizeof(check)/sizeof(check[0]); ++i) {
 		flag = tree->same(check[i][0], check[i][1]);
+		x = tree->size(check[i][0]);
+		y = tree->size(check[i][1]);
 		if (flag) {
-			std::printf("C: %u === %u\n", check[i][0], check[i][1]);
+			std::printf("C: %u (%u) === %u (%u)\n", check[i][0], x, check[i][1], y);
 		}
 		else {
-			std::printf("C: %u !== %u\n", check[i][0], check[i][1]);
+			std::printf("C: %u (%u) !== %u (%u)\n", check[i][0], x, check[i][1], y);
 		}
 	}
 
