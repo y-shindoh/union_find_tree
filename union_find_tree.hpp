@@ -60,15 +60,14 @@ namespace ys
 		 * コンストラクタ
 		 */
 		UnionFindTree(size_t n)
-			{
-				parent_.reserve(n);
-				rank_.resize(n, (TYPE)0);
 #ifdef	__UNION_FIND_TREE_WITH_SIZE__
-				size_.resize(n, (TYPE)1);
+			: parent_(n), rank_(n, (TYPE)0), size_(n, (TYPE)1)
+#else	// __UNION_FIND_TREE_WITH_SIZE__
+			: parent_(n), rank_(n, (TYPE)0)
 #endif	// __UNION_FIND_TREE_WITH_SIZE__
-
+			{
 				for (size_t i(0); i < n; ++i) {
-					parent_.push_back((TYPE)i);
+					parent_[i] = (TYPE)i;
 				}
 			}
 
