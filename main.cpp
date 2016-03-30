@@ -11,7 +11,7 @@
 int
 main()
 {
-	ys::UnionFindTree<unsigned>* tree = new ys::UnionFindTree<unsigned>(16);
+	ys::UnionFindTree<int>* tree = new ys::UnionFindTree<int>(16);
 
 	unsigned unite[][2] = {{0, 3}, {3, 6}, {9, 0}, {2, 4}, {5, 4}};
 	for (size_t i(0); i < sizeof(unite)/sizeof(unite[0]); ++i) {

@@ -10,7 +10,10 @@
 #ifndef	__UNION_FIND_TREE_HPP__
 #define	__UNION_FIND_TREE_HPP__ "union_find_tree.hpp"
 
-#include <cstddef>
+#if	!defined(__cplusplus) || __cplusplus < 201103L
+#error	This library requires a C++11 compiler.
+#endif
+
 #include <cassert>
 #include <vector>
 #include <utility>
@@ -21,17 +24,16 @@ namespace ys
 {
 	/**
 	 * @class	union find treeのテンプレート
-	 * @note	テンプレートの型 @a TYPE には符号なし整数を指定すること。
+	 * @note	テンプレートの型 @a TYPE には符号あり整数を指定すること。
 	 */
 	template<typename TYPE>
 	class UnionFindTree
 	{
 	private:
 
-		std::vector<TYPE> parent_;	///< 代表のインデックス
-		std::vector<TYPE> rank_;	///< ランク
+		std::vector<TYPE> data_;	///< 代表のインデックス or ランク
 #ifdef	__UNION_FIND_TREE_WITH_SIZE__
-		std::vector<TYPE> size_;	///< グループの大きさ
+		std::vector<size_t> size_;	///< グループの大きさ
 #endif	// __UNION_FIND_TREE_WITH_SIZE__
 
 		/**
@@ -42,16 +44,12 @@ namespace ys
 		size_t
 		find(size_t i)
 			{
-				assert(i < parent_.size());
+				assert(i < data_.size());
 
-				size_t j = (size_t)parent_[i];
+				if (data_[i] < (TYPE)0) return i;
 
-				if (i != j) {
-					j = find(j);
-					parent_[i] = (TYPE)j;
-				}
-
-				return j;
+				data_[i] = (TYPE)find(data_[i]);
+				return (size_t)data_[i];
 			}
 
 	public:
@@ -61,19 +59,29 @@ namespace ys
 		 */
 		UnionFindTree(size_t n)
 #ifdef	__UNION_FIND_TREE_WITH_SIZE__
-			: parent_(n), rank_(n, (TYPE)0), size_(n, (TYPE)1)
+			: data_(n, (TYPE)-1), size_(n, (TYPE)1)
 #else	// __UNION_FIND_TREE_WITH_SIZE__
-			: parent_(n), rank_(n, (TYPE)0)
+			: data_(n, (TYPE)-1)
 #endif	// __UNION_FIND_TREE_WITH_SIZE__
 			{
-				for (size_t i(0); i < n; ++i) {
-					parent_[i] = (TYPE)i;
-				}
+				;
 			}
+
+		/**
+		 * コピー・コンストラクタ (使用禁止)
+		 */
+		UnionFindTree(const UnionFindTree<TYPE>&) = delete;
+
+		/**
+		 * 代入演算子 (使用禁止)
+		 */
+		UnionFindTree&
+		operator =(const UnionFindTree<TYPE>&) = delete;
 
 		/**
 		 * デストラクタ
 		 */
+		virtual
 		~UnionFindTree()
 			{
 				;
@@ -88,16 +96,16 @@ namespace ys
 		unite(size_t i,
 			  size_t j)
 			{
-				assert(i < parent_.size());
-				assert(j < parent_.size());
+				assert(i < data_.size());
+				assert(j < data_.size());
 
 				i = find(i);
 				j = find(j);
 				if (i == j) return;
 
-				if (rank_[i] < rank_[j]) std::swap<size_t>(i, j);
-				parent_[j] = (TYPE)i;
-				if (rank_[i] == rank_[j]) rank_[i]++;
+				if (data_[i] > data_[j]) std::swap<size_t>(i, j);
+				data_[j] = (TYPE)i;
+				if (data_[i] == data_[j]) data_[i]--;
 #ifdef	__UNION_FIND_TREE_WITH_SIZE__
 				size_[i] += size_[j];
 #endif	// __UNION_FIND_TREE_WITH_SIZE__
@@ -113,8 +121,8 @@ namespace ys
 		same(size_t i,
 			 size_t j)
 			{
-				assert(i < parent_.size());
-				assert(j < parent_.size());
+				assert(i < data_.size());
+				assert(j < data_.size());
 
 				return find(i) == find(j);
 			}
@@ -128,7 +136,7 @@ namespace ys
 		TYPE
 		size(size_t i)
 			{
-				assert(i < parent_.size());
+				assert(i < data_.size());
 
 				i = find(i);
 				return size_[i];

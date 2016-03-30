@@ -6,7 +6,7 @@ HEADER	:= $(wildcard *.hpp)
 EXECUTE	:= sample
 
 CXX		:= clang++
-CFLAGS	:= -Wall -D__UNION_FIND_TREE_WITH_SIZE__
+CFLAGS	:= -Wall -D__UNION_FIND_TREE_WITH_SIZE__ -std=c++11
 
 check: $(EXECUTE)
 	./$(EXECUTE)
