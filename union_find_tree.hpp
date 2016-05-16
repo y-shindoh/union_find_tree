@@ -104,8 +104,8 @@ namespace ys
 				if (i == j) return;
 
 				if (data_[i] > data_[j]) std::swap<size_t>(i, j);
+				data_[i] -= (data_[i] == data_[j]);
 				data_[j] = (TYPE)i;
-				if (data_[i] == data_[j]) data_[i]--;
 #ifdef	__UNION_FIND_TREE_WITH_SIZE__
 				size_[i] += size_[j];
 #endif	// __UNION_FIND_TREE_WITH_SIZE__
